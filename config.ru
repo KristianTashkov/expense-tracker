@@ -25,7 +25,7 @@ require_file = -> (file) { require file }
 Dir.glob('./{models,helpers}/**/*.rb').each &require_file
 Dir.glob('./controllers/**/*.rb').each &require_file
 
-controllers = [ExpenseTracker::MainController]
+controllers = [ExpenseTracker::MainController, ExpenseTracker::ProfileController]
 
 controllers.each do |controller|
   map (controller::NAMESPACE) { run controller }

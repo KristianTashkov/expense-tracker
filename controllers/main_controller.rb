@@ -6,7 +6,7 @@ module ExpenseTracker
       @title = 'Register'
     end
     get '/' do
-      redirect '/home' if logged?
+      redirect '/profile' if logged?
       erb :'index.html', :locals => {:error_message => nil}
     end
 
@@ -23,7 +23,7 @@ module ExpenseTracker
       user = User.find(username: @login_username, password: secure_password);
       if user
         session[:user_id] = user.id
-        redirect '/home'
+        redirect '/profile'
       end
 
       @global_error_message = "Wrong username and password combination! Not a user?"
