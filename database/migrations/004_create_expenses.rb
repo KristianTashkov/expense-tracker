@@ -5,7 +5,9 @@ Sequel.migration do
       foreign_key :subcategory_id, :subcategories, null: false
       foreign_key :user_id, :users, null: false
       Double :ammount, null: false
-      Date :date, null: false
+      Double :ammount_usd, null: false
+      String :description
+      DateTime :date, null: false
     end
   end
 end

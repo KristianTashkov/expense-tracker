@@ -31,10 +31,10 @@ module ExpenseTracker
     end
 
     post '/register' do
-      @username  = params[:username]
-      @email    = params[:email]
-      @password1 = params[:password1]
-      @password2 = params[:password2]
+      @username  = params[:username].to_s
+      @email    = params[:email].to_s.downcase
+      @password1 = params[:password1].to_s
+      @password2 = params[:password2].to_s
       @currency = 'USD'
 
       error_message = validate_new_user(@username, @email, @password1, @password2);
@@ -43,6 +43,7 @@ module ExpenseTracker
       else
         secure_password = get_secure_password @password1
         user = User.create(username: @username, email: @email, password: secure_password, currency: @currency)
+        user.add_default_categories
         session[:user_id] = user.id
         redirect '/'
       end

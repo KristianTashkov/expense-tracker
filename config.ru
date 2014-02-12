@@ -3,6 +3,7 @@ require 'sinatra/reloader'
 require 'sequel'
 
 module ExpenseTracker
+  STARTING_SUBCATEGORY_COUNT = 5
   class BaseController < Sinatra::Base
 
     set :environment, :development

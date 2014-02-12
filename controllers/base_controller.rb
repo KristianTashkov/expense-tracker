@@ -1,7 +1,8 @@
 module ExpenseTracker
   class BaseController < Sinatra::Base
     helpers HTMLGenerator
-    helpers UserHelper
+    helpers UserHelpers
+    helpers CategoryHelpers
 
     not_found do
       @title = "404: Wrong page"

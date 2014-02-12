@@ -1,6 +1,6 @@
 require 'digest/sha1'
 
-module UserHelper
+module UserHelpers
   def logged_user
     User.find(id: session[:user_id])
   end
