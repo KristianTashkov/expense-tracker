@@ -8,16 +8,6 @@ end
 js_object = "{ #{categories.join(', ')} }";
 %>
 subcategories = <%= js_object %>;
-function onCategoryChanged(){
-  var categorySelect = document.getElementById("category");
-  var selectedCategoryId = categorySelect.options[categorySelect.selectedIndex].value;
-  var categoryNameInput = document.getElementById("categoryName");
-  if(selectedCategoryId === '0') {
-  categoryNameInput.disabled = false;
-  } else {
-  categoryNameInput.disabled = true;
-  }
-}
 
 function onExpenseCategoryChanged(){
   var categorySelect = document.getElementById("expenseCategory");
@@ -45,10 +35,7 @@ function deleteExpense(id) {
       })
 }
 
-window.onload = function () {
-  onCategoryChanged();
-  onExpenseCategoryChanged();
-};
+window.onload = onExpenseCategoryChanged;
 </script>
 <div class="col-md-8">
   <div class="panel panel-primary">
@@ -91,69 +78,42 @@ window.onload = function () {
   <div class="panel panel-primary">
   <div class="panel-heading">Add new expense</div>
     <div class="panel-body">
-    <form method="post" action="/profile/add-expense">
-      <% if @expense_error_message %>
-      <div class="alert alert-danger text-center"><%= @expense_error_message %></div>
-      <% end %>
-      <% if @expense_success_message %>
-      <div class="alert alert-success text-center"><%= @expense_success_message %></div>
-      <% end %>
-      <div class="form-group">
-      <label for="expenseCategory">Category:</label>
-      <select name="expenseCategory" id="expenseCategory" onChange="onExpenseCategoryChanged()" onLoad="onExpenseCategoryChanged()">
-        <% logged_user.categories.each do |category| %>
-          <option <%= "value='#{category.id}'"%>><%= category.name %></option> %>
+    <% if logged_user.categories.empty? %>
+      <div class="alert alert-info text-center">
+        You currently have no categories! You can add more categories from the <%= to_link "/categories", "<b>manage categories section.</b>" %>
+      </div>
+    <% else %>
+      <form method="post" action="/profile/add-expense">
+        <% if @expense_error_message %>
+        <div class="alert alert-danger text-center"><%= @expense_error_message %></div>
         <% end %>
-      </select>
-      </div>
-      <div class="form-group">
-      <label for="expenseCategory">Sub-category:</label>
-      <select name="expenseSubcategory" id="expenseSubcategory">
-      </select>
-      </div>
-      <div class="form-group">
-      <label for="expenseAmmount">Ammount:</label>
-      <input type="text" class="form-control" id="expenseAmmount" name="expenseAmmount" />
-      </div>
-      <div class="form-group">
-      <label for="expenseDescription">Description:</label>
-      <textarea class="form-control" id="expenseDescription" name="expenseDescription"></textarea>
-      </div>
-      <input type="submit" class="btn btn-primary" value="Add expense" />
-    </form>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="panel panel-primary">
-  <div class="panel-heading">Create new category</div>
-    <div class="panel-body">
-    <form method="post" action="/profile/create-category">
-    <% if @error_message %>
-    <div class="alert alert-danger text-center"><%= @error_message %></div>
+        <% if @expense_success_message %>
+        <div class="alert alert-success text-center"><%= @expense_success_message %></div>
+        <% end %>
+        <div class="form-group">
+        <label for="expenseCategory">Category:</label>
+        <select name="expenseCategory" id="expenseCategory" onChange="onExpenseCategoryChanged()" onLoad="onExpenseCategoryChanged()">
+          <% logged_user.categories.each do |category| %>
+            <option <%= "value='#{category.id}'"%>><%= category.name %></option> %>
+          <% end %>
+        </select>
+        </div>
+        <div class="form-group">
+        <label for="expenseCategory">Sub-category:</label>
+        <select name="expenseSubcategory" id="expenseSubcategory">
+        </select>
+        </div>
+        <div class="form-group">
+        <label for="expenseAmmount">Ammount:</label>
+        <input type="text" class="form-control" id="expenseAmmount" name="expenseAmmount" />
+        </div>
+        <div class="form-group">
+        <label for="expenseDescription">Description:</label>
+        <textarea class="form-control" id="expenseDescription" name="expenseDescription"></textarea>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Add expense" />
+      </form>
     <% end %>
-    <% if @success_message %>
-    <div class="alert alert-success text-center"><%= @success_message %></div>
-    <% end %>
-    <div class="form-group">
-    <label for="category">Category:</label>
-    <select name="category" id="category" onChange="onCategoryChanged()" onLoad="onCategoryChanged()">
-      <% logged_user.categories.each do |category| %>
-        <option <%= "value='#{category.id}'"%>><%= category.name %></option> %>
-      <% end %>
-      <option value='0'>&lt;New Category&gt;</option>
-    </select>
-    </div>
-    <div class="form-group" enable="false">
-    <label for="categoryName">New category name:</label>
-    <input type="text" class="form-control" id="categoryName" name="categoryName" disabled />
-    </div>
-    <div class="form-group">
-    <label for="subcategoryName">Sub-category name:</label>
-    <input type="text" class="form-control" id="subcategoryName" name="subcategoryName" />
-    </div>
-    <input type="submit" class="btn btn-primary" value="Create category" />
-  </form>
     </div>
   </div>
 </div>

@@ -4,6 +4,11 @@ require 'sequel'
 
 module ExpenseTracker
   STARTING_SUBCATEGORY_COUNT = 5
+  @@navigation_links = {}
+
+  def self.navigation_links
+    @@navigation_links
+  end
   class BaseController < Sinatra::Base
 
     set :environment, :development
@@ -26,7 +31,7 @@ require_file = -> (file) { require file }
 Dir.glob('./{models,helpers}/**/*.rb').each &require_file
 Dir.glob('./controllers/**/*.rb').each &require_file
 
-controllers = [ExpenseTracker::MainController, ExpenseTracker::ProfileController]
+controllers = [ExpenseTracker::MainController, ExpenseTracker::ProfileController, ExpenseTracker::CategoryController]
 
 controllers.each do |controller|
   map (controller::NAMESPACE) { run controller }

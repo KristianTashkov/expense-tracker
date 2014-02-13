@@ -1,0 +1,111 @@
+<script>
+function onCategoryChanged(){
+  var categorySelect = document.getElementById("category");
+  var selectedCategoryId = categorySelect.options[categorySelect.selectedIndex].value;
+  var categoryNameInput = document.getElementById("categoryName");
+  if(selectedCategoryId === '0') {
+  categoryNameInput.disabled = false;
+  } else {
+  categoryNameInput.disabled = true;
+  }
+}
+
+function deleteCategory(id) {
+  if(confirm("Are you sure you want to delete this category and all it's subcategories and expenses?")) {
+    $.ajax({
+        method: "GET",
+        url: "/categories/delete-category?id=" + id,
+        success: function() {
+          document.getElementById("categoryRow" + id).remove();
+        }
+      })
+  }
+}
+
+function deleteSubcategory(id) {
+  if(confirm("Are you sure you want to delete this subcategory and all it's expenses?")) {
+    $.ajax({
+        method: "GET",
+        url: "/categories/delete-subcategory?id=" + id,
+        success: function() {
+          document.getElementById("subcategorySpan" + id).remove();
+        }
+      })
+  }
+}
+
+window.onload = onCategoryChanged;
+</script>
+<div class="col-md-8">
+<div class="panel panel-primary">
+ <div class="panel-heading">Categories</div>
+ <div class="panel-body">
+ <% if @categories.empty? %>
+  <div class="alert alert-info text-center">
+    You currently have no categories! You can add more categories from the panel on the right.
+  </div>
+ <% else %>
+  <table class="table table-striped table-hover vertical-middle">
+    <thead>
+      <tr>
+        <th class="text-center" width="50">Delete</th>
+        <th>Category</th>
+        <th>Subcategories</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @categories.each do |category, subcategories| %>
+        <tr <%= "id='categoryRow#{category.id}'" %>>
+          <td class="text-center"><%= to_link "javascript: deleteCategory(#{category.id})", (glyphicon_span "remove") %></td>
+          <td><%= category.name %></td>
+          <td>
+          <div>
+              <% subcategories.map do |subcategory| %>
+                <span <%= "id='subcategorySpan#{subcategory.id}'" %>>
+                  <%= subcategory.name %>
+                  <%= to_link "javascript: deleteSubcategory(#{subcategory.id})", (glyphicon_span "remove") %>
+                </span>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% end %>
+ </div>
+</div>
+</div>
+<div class="col-md-4">
+  <div class="panel panel-primary">
+  <div class="panel-heading">Create new category</div>
+    <div class="panel-body">
+    <form method="post" action="/categories/create-category">
+    <% if @error_message %>
+    <div class="alert alert-danger text-center"><%= @error_message %></div>
+    <% end %>
+    <% if @success_message %>
+    <div class="alert alert-success text-center"><%= @success_message %></div>
+    <% end %>
+    <div class="form-group">
+    <label for="category">Category:</label>
+    <select name="category" id="category" onChange="onCategoryChanged()" onLoad="onCategoryChanged()">
+      <% logged_user.categories.each do |category| %>
+        <option <%= "value='#{category.id}'"%>><%= category.name %></option> %>
+      <% end %>
+      <option value='0'>&lt;New Category&gt;</option>
+    </select>
+    </div>
+    <div class="form-group" enable="false">
+    <label for="categoryName">New category name:</label>
+    <input type="text" class="form-control" id="categoryName" name="categoryName" disabled />
+    </div>
+    <div class="form-group">
+    <label for="subcategoryName">Sub-category name:</label>
+    <input type="text" class="form-control" id="subcategoryName" name="subcategoryName" />
+    </div>
+    <input type="submit" class="btn btn-primary" value="Create category" />
+  </form>
+    </div>
+  </div>
+</div>

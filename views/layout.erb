@@ -20,26 +20,33 @@
         <a class="navbar-brand" href="/">Expense Tracker</a>
       </div>
       <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <% @shown_navigation_links.each do |link| %>
+            <li <%= link.active ? "class='active'" : "" %>>
+              <%= to_link link.href, link.title %>
+            </li>
+          <% end %>
+        </ul>
         <ul class="nav navbar-nav navbar-right">
         <% if logged? %>
         <form class='navbar-form navbar-right' method="post" action="/logout">
-		    <div class="form-group">
-		      <input type="submit" class="btn btn-primary" value="Logout" />
-		    </div>
-		  </form>
+        <div class="form-group">
+          <input type="submit" class="btn btn-primary" value="Logout" />
+        </div>
+      </form>
         <%else %>
-    	  <form class='navbar-form navbar-right' method="post" action="/login">
-	        <div class="form-group">
-		      <input type="text" class="form-control" id="login_username" name="login_username" placeholder="Username" <%= "value = '#{@login_username}'" %>/>
-		    </div>
-		    <div class="form-group">
-		      <input type="password" class="form-control" id="login_password" name="login_password" placeholder="Password"/>
-		    </div>
-		    <div class="form-group">
-		      <input type="submit" class="btn btn-default" value="Login" />
-		    </div>
-		  </form>
-		<% end %>
+        <form class='navbar-form navbar-right' method="post" action="/login">
+          <div class="form-group">
+          <input type="text" class="form-control" id="login_username" name="login_username" placeholder="Username" <%= "value = '#{@login_username}'" %>/>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" id="login_password" name="login_password" placeholder="Password"/>
+        </div>
+        <div class="form-group">
+          <input type="submit" class="btn btn-default" value="Login" />
+        </div>
+      </form>
+    <% end %>
         </ul>
       </div>
     </nav>

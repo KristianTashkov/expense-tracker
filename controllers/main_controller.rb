@@ -5,6 +5,7 @@ module ExpenseTracker
     before do
       @title = 'Register'
     end
+
     get '/' do
       redirect '/profile' if logged?
       erb :'index.html', :locals => {:error_message => nil}
