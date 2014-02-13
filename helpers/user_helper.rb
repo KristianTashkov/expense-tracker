@@ -36,6 +36,8 @@ module UserHelpers
     unless /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/.match(email)
       return "Not a valid email address!";
     end
+
+    return "A user with this email already exists!" if User.find(email: @email)
   end
 
   def validate_new_user_password(password1, password2)

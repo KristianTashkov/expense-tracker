@@ -63,7 +63,8 @@ module ExpenseTracker
     def delete_subcategory(id)
       expenses_to_delete = logged_user.expenses.select { |expense| expense.subcategory.id == id }
       expenses_to_delete.each { |expense| expense.delete }
-      logged_user.remove_subcategory(Subcategory.find(id: id));
+      subcategory = Subcategory.find(id: id);
+      logged_user.remove_subcategory(subcategory);
     end
   end
 
