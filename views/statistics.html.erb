@@ -1,0 +1,19 @@
+<%= ExpenseTracker::chart_manager.add_scripts %>
+<div class="row">
+	<div class="col-md-6">
+	  <div class="panel panel-primary">
+	    <div class="panel-heading">Categories breakdown</div>
+	    <div class="panel-body">
+	    	<%= ExpenseTracker::chart_manager.draw_pie_chart "categoriesChart", @categories_chart_data %>
+	    </div>
+	  </div>
+	</div>
+	<div class="col-md-6">
+	  <div class="panel panel-primary">
+	    <div class="panel-heading">Subcategories breakdown</div>
+	    <div class="panel-body">
+	    	<%= ExpenseTracker::chart_manager.draw_pie_chart "subcategoriesChart", @subcategories_chart_data %>
+	    </div>
+	  </div>
+	</div>
+</div>

@@ -1,14 +1,23 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
 require 'sequel'
+require 'chartkick'
+require './charts/chartkick_chart'
+require './charts/google_chart'
 
 module ExpenseTracker
   STARTING_SUBCATEGORY_COUNT = 5
   @@navigation_links = {}
+  @@chart_manager = ChartkickChart.new
 
   def self.navigation_links
     @@navigation_links
   end
+
+  def self.chart_manager
+    @@chart_manager
+  end
+
   class BaseController < Sinatra::Base
 
     set :environment, :development
@@ -31,7 +40,13 @@ require_file = -> (file) { require file }
 Dir.glob('./{models,helpers}/**/*.rb').each &require_file
 Dir.glob('./controllers/**/*.rb').each &require_file
 
-controllers = [ExpenseTracker::MainController, ExpenseTracker::ProfileController, ExpenseTracker::CategoryController]
+controllers = 
+  [
+   ExpenseTracker::MainController,
+   ExpenseTracker::ProfileController,
+   ExpenseTracker::CategoryController,
+   ExpenseTracker::StatisticsController
+  ]
 
 controllers.each do |controller|
   map (controller::NAMESPACE) { run controller }
