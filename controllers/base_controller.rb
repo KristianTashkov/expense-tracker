@@ -3,6 +3,7 @@ module ExpenseTracker
     helpers HTMLGenerator
     helpers UserHelpers
     helpers CategoryHelpers
+    helpers ExpenseHelpers
 
     before do
       @shown_navigation_links = ExpenseTracker::navigation_links.each do |controller, link|

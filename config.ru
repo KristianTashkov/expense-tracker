@@ -45,7 +45,8 @@ controllers =
    ExpenseTracker::MainController,
    ExpenseTracker::ProfileController,
    ExpenseTracker::CategoryController,
-   ExpenseTracker::StatisticsController
+   ExpenseTracker::StatisticsController,
+   ExpenseTracker::AdvancedStatisticsController
   ]
 
 controllers.each do |controller|

@@ -3,7 +3,7 @@
   <div class="panel panel-primary">
     <div class="panel-heading">Expenses per day</div>
     <div class="panel-body">
-    	<%= ExpenseTracker::charts.draw_line_chart "expensesChart", @expenses_line_data %>
+    	<%= ExpenseTracker::charts.draw_line_chart "expensesChart", expenses_line_data %>
     </div>
   </div>
 </div>
@@ -12,7 +12,7 @@
 	  <div class="panel panel-primary">
 	    <div class="panel-heading">Categories breakdown</div>
 	    <div class="panel-body">
-	    	<%= ExpenseTracker::charts.draw_pie_chart "categoriesChart", @categories_chart_data %>
+	    	<%= ExpenseTracker::charts.draw_pie_chart "categoriesChart", categories_chart_data %>
 	    </div>
 	  </div>
 	</div>
@@ -20,7 +20,7 @@
 	  <div class="panel panel-primary">
 	    <div class="panel-heading">Subcategories breakdown</div>
 	    <div class="panel-body">
-	    	<%= ExpenseTracker::charts.draw_bar_chart "subcategoriesChart", @subcategories_chart_data %>
+	    	<%= ExpenseTracker::charts.draw_bar_chart "subcategoriesChart", subcategories_chart_data %>
 	    </div>
 	  </div>
 	</div>
