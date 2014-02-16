@@ -8,14 +8,14 @@ require './charts/google_chart'
 module ExpenseTracker
   STARTING_SUBCATEGORY_COUNT = 5
   @@navigation_links = {}
-  @@chart_manager = ChartkickChart.new
+  @@charts = ChartkickCharts.new
 
   def self.navigation_links
     @@navigation_links
   end
 
-  def self.chart_manager
-    @@chart_manager
+  def self.charts
+    @@charts
   end
 
   class BaseController < Sinatra::Base

@@ -1,19 +1,22 @@
-<%= ExpenseTracker::chart_manager.add_scripts %>
-<div class="row">
-	<div class="col-md-6">
-	  <div class="panel panel-primary">
-	    <div class="panel-heading">Categories breakdown</div>
-	    <div class="panel-body">
-	    	<%= ExpenseTracker::chart_manager.draw_pie_chart "categoriesChart", @categories_chart_data %>
-	    </div>
-	  </div>
-	</div>
-	<div class="col-md-6">
-	  <div class="panel panel-primary">
-	    <div class="panel-heading">Subcategories breakdown</div>
-	    <div class="panel-body">
-	    	<%= ExpenseTracker::chart_manager.draw_pie_chart "subcategoriesChart", @subcategories_chart_data %>
-	    </div>
-	  </div>
-	</div>
+<p>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#lastWeek" data-toggle="tab">Last Week</a></li>
+    <li><a href="#lastMonth" data-toggle="tab">Last Month</a></li>
+    <li><a href="#allTime" data-toggle="tab">All Time</a></li>
+  </ul>
+</p>
+  <div class="tab-content">
+    <div class="tab-pane active col-md-12" id="lastWeek">
+      <% generate_chart_data(DateTime.now - 7, DateTime.now) %>
+      <%= erb :'charts.html' %>
+    </div>
+    <div class="tab-pane active col-md-12" id="lastMonth">
+    <% generate_chart_data(DateTime.now.prev_month, DateTime.now) %>
+      <%= erb :'charts.html' %>
+    </div>
+    <div class="tab-pane active col-md-12" id="allTime">
+      <% generate_chart_data(DateTime.new, DateTime.now) %>
+      <%= erb :'charts.html' %>
+    </div>
+  </div>
 </div>

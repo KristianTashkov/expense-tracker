@@ -9,21 +9,34 @@ module ExpenseTracker
     end
 
     get '/' do
-      @categories_chart_data = logged_user.expenses.group_by { |expense| expense.subcategory.category }
+      erb :'statistics.html'
+    end
+
+    def generate_chart_data(startPeriod, endPeriod)
+      all_expenses = get_expenses(startPeriod, endPeriod)
+
+      @categories_chart_data = all_expenses.group_by { |expense| expense.subcategory.category }
         .map do |category, expenses|
           [category.name, expenses.map(&:ammount).reduce(&:+)]
         end
 
       @categories_chart_data = trim_statistics_data @categories_chart_data
 
-      @subcategories_chart_data = logged_user.expenses.group_by { |expense| expense.subcategory}
+      @subcategories_chart_data = all_expenses.group_by { |expense| expense.subcategory}
         .map do |subcategory, expenses|
           ["#{subcategory.category.name}/#{subcategory.name}", expenses.map(&:ammount).reduce(&:+)]
         end
 
       @subcategories_chart_data = trim_statistics_data @subcategories_chart_data
 
-      erb :'statistics.html'
+      @expenses_line_data = all_expenses.group_by { |expense| expense.date.to_date }.map do |date, expenses|
+        ammount = expenses.map(&:ammount).reduce(&:+)
+        [date, ammount]
+      end
+    end
+
+    def get_expenses(startPeriod, endPeriod)
+      Expense.where(user_id: logged_user.id).where(date: startPeriod..endPeriod).to_a
     end
 
     def trim_statistics_data(data)
