@@ -46,7 +46,7 @@ window.onload = onCategoryChanged;
 <div class="panel panel-primary">
  <div class="panel-heading">Categories</div>
  <div class="panel-body">
- <% if @categories.empty? %>
+ <% if logged_user.subcategories_by_category.empty? %>
   <div class="alert alert-info text-center">
     You currently have no categories! You can add more categories from the panel on the right.
   </div>
@@ -60,14 +60,14 @@ window.onload = onCategoryChanged;
       </tr>
     </thead>
     <tbody>
-      <% @categories.each do |category, subcategories| %>
+      <% logged_user.subcategories_by_category.each do |category, subcategories| %>
         <tr <%= "id='categoryRow#{category.id}'" %>>
           <input type="hidden" <%= "id='subcategoriesLeft#{category.id}'" %> <%= "value='#{subcategories.count}'" %> />
           <td class="text-center"><%= to_link "javascript: deleteCategory(#{category.id})", (glyphicon_span "remove") %></td>
           <td><%= category.name %></td>
           <td>
           <div>
-              <% subcategories.map do |subcategory| %>
+              <% subcategories.each do |subcategory| %>
                 <span <%= "id='subcategorySpan#{subcategory.id}'" %>>
                   <%= subcategory.name %>
                   <%= to_link "javascript: deleteSubcategory(#{subcategory.id}, #{category.id})", (glyphicon_span "remove") %>

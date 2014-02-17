@@ -1,27 +1,42 @@
-<%= ExpenseTracker::charts.initialize_charts %>
-<div class="row">
-  <div class="panel panel-primary">
-    <div class="panel-heading">Expenses per day</div>
-    <div class="panel-body">
-    	<%= ExpenseTracker::charts.draw_line_chart "expensesChart", expenses_line_data %>
+<% if not success %>
+  <div class="alert alert-info text-center">There are no matching expenses for the selected period!</div>
+<% else %>
+  <%= ExpenseTracker::charts.initialize_charts %>
+  <div class="row">
+    <div class="panel panel-primary">
+      <div class="panel-heading">General statistics</div>
+      <div class="panel-body">
+        <div> <b>Total spent for period:</b> <%= format_currency_string total_spent %> </div>
+        <div> <b>Expenses count for period:</b> <%= expenses_count %> </div>
+        <div> <b>Average spent per day for period:</b> <%= format_currency_string average_per_day %> </div>
+        <div> <b>Total days of spending for period:</b> <%= total_days_spending %> </div>
+      </div>
     </div>
   </div>
-</div>
-<div class="row">
-	<div class="col-md-6">
-	  <div class="panel panel-primary">
-	    <div class="panel-heading">Categories breakdown</div>
-	    <div class="panel-body">
-	    	<%= ExpenseTracker::charts.draw_pie_chart "categoriesChart", categories_chart_data %>
-	    </div>
-	  </div>
-	</div>
-	<div class="col-md-6">
-	  <div class="panel panel-primary">
-	    <div class="panel-heading">Subcategories breakdown</div>
-	    <div class="panel-body">
-	    	<%= ExpenseTracker::charts.draw_bar_chart "subcategoriesChart", subcategories_chart_data %>
-	    </div>
-	  </div>
-	</div>
-</div>
+  <div class="row">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Expenses per day</div>
+      <div class="panel-body">
+        <%= ExpenseTracker::charts.draw_line_chart "expensesChart", expenses_line_data %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">Categories breakdown</div>
+        <div class="panel-body">
+          <%= ExpenseTracker::charts.draw_pie_chart "categoriesChart", categories_chart_data %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">Subcategories breakdown</div>
+        <div class="panel-body">
+          <%= ExpenseTracker::charts.draw_bar_chart "subcategoriesChart", subcategories_chart_data %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

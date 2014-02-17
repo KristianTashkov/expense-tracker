@@ -11,4 +11,8 @@ class User < Sequel::Model
   def categories
     subcategories.map { |subcategory| subcategory.category }.uniq
   end
+
+  def subcategories_by_category
+    subcategories.group_by { |subcategory| subcategory.category }
+  end
 end

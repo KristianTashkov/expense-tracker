@@ -1,7 +1,7 @@
 <script>
 <% 
-categories = logged_user.categories.map do |category|
-  subcategories = category.subcategories.map { |subcategory| "{'id': #{subcategory.id}, 'name': '#{subcategory.name}'}" }
+categories = logged_user.subcategories.group_by(&:category).map do |category, subcategories|
+  subcategories = subcategories.map { |subcategory| "{'id': #{subcategory.id}, 'name': '#{subcategory.name}'}" }
   subcategories_string = subcategories.join(', ');
   "'#{category.id}': [#{subcategories_string}]"
 end
@@ -61,7 +61,7 @@ window.onload = onExpenseCategoryChanged;
                 <td class="text-center"><%= expense.date.strftime("%e-%m-%Y %H:%M:%S") %></td>
                 <td class="text-center"><%= expense.subcategory.category.name %></td>
                 <td class="text-center"><%= expense.subcategory.name %></td>
-                <td class="text-center"><%= expense.ammount %></td>
+                <td class="text-center"><%= format_currency_string expense.ammount %></td>
                 <td class="text-center"><%= expense.description %></td>
                 <td class="text-center"><%= to_link "javascript: deleteExpense(#{expense.id})", (glyphicon_span "remove") %></td>
               </tr>

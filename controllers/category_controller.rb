@@ -5,8 +5,6 @@ module ExpenseTracker
     before do
       redirect '/' unless logged?
       @title = "Manage Categories"
-
-      update_categories
     end
 
     get '/' do
@@ -47,17 +45,12 @@ module ExpenseTracker
         subcategory = existing_category ? existing_category : Subcategory.create(category_id: category_id, name: subcategory_name)
         if(not logged_user.subcategories.include?(subcategory))
           logged_user.add_subcategory(subcategory);
-          update_categories
           @success_message = "Category created succesfully!"
         else
           @error_message = "Category already exists!"
         end
       end
       return erb :'manage_categories.html'
-    end
-
-    def update_categories
-      @categories = logged_user.subcategories.group_by { |subcategory| subcategory.category }
     end
 
     def delete_subcategory(id)

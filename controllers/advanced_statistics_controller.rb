@@ -8,7 +8,26 @@ module ExpenseTracker
     end
 
     get '/' do
-      erb :'statistics.html'
+      erb :'advanced_statistics.html'
+    end
+
+    post '/charts' do
+      start_date = Date.parse(params[:startDate].to_s) rescue nil
+      end_date = Date.parse(params[:endDate].to_s) rescue nil
+
+      if(not(start_date) || not(end_date))
+        @global_error_message = "Wrong date format!" + start_date.to_s + end_date.to_s
+        return erb :'advanced_statistics.html'
+      end
+
+      subcategory_fields = params.select { |key, value| key.to_s.start_with?("subcategoryId") }
+      subcategory_ids = subcategory_fields.select { |_, value| value }.map { |key, _| /\d+/.match(key).to_s.to_i }
+      if(subcategory_ids.size == logged_user.subcategories.size)
+        subcategory_ids = nil
+      end
+
+      @charts_data = generate_chart_data(start_date, end_date, subcategory_ids)
+      erb :'advanced_statistics.html'
     end
 
   end
