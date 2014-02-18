@@ -1,5 +1,6 @@
 #ExpenseTracker
 database/database.db
+database/test_database.db
 
 #Ruby
 *.gem

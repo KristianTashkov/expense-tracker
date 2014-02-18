@@ -52,6 +52,7 @@ DEPENDENCIES
   awesome_print
   chartkick
   pry
+  rack-test
   rspec
   sequel (~> 4.7.0)
   sinatra (~> 1.4.4)

@@ -3,7 +3,7 @@
 require 'sequel'
 require 'awesome_print'
 require 'pry'
-Sequel.sqlite('./database/database.db')
+DB = Sequel.sqlite('./database/test_database.db')
 
 Dir['./{models}/**/*.rb'].each { |file| require file }
 

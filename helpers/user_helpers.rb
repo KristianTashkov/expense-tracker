@@ -29,7 +29,7 @@ module UserHelpers
       return "Username contains illegal characters. Only a-z,A-Z,0-9 and '_' are allowed!." 
     end
 
-    return "A user with this username already exists!" if User.find(username: @username)
+    return "A user with this username already exists!" if User.find(username: username)
   end
 
   def validate_new_user_email(email)
@@ -37,7 +37,7 @@ module UserHelpers
       return "Not a valid email address!";
     end
 
-    return "A user with this email already exists!" if User.find(email: @email)
+    return "A user with this email already exists!" if User.find(email: email)
   end
 
   def validate_new_user_password(password1, password2)
