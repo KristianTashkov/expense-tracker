@@ -1,7 +1,8 @@
-require 'sinatra/base'
-require 'sinatra/reloader'
-require 'sequel'
-require 'chartkick'
+require 'rubygems'
+require 'bundler' 
+
+Bundler.require :default
+
 require './charts/chartkick_chart'
 require './charts/google_chart'
 
