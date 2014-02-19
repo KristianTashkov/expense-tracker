@@ -12,7 +12,7 @@ module ExpenseTracker
     end
 
     post '/logout' do
-      session[:user_id] = nil
+      set_logged_user_id 0
       redirect '/'
     end
 
@@ -23,7 +23,7 @@ module ExpenseTracker
 
       user = User.find(username: @login_username, password: secure_password);
       if user
-        session[:user_id] = user.id
+        set_logged_user_id user.id
         redirect '/profile'
       end
 

@@ -10,12 +10,12 @@ module ExpenseTracker
       end
 
       it "should return nil if session has incorrect user id" do
-        session[:user_id] = 0
+        set_logged_user_id 0
         logged_user.should be_nil
       end
 
       it "should return user if correct user id is in session" do
-        session[:user_id] = create_user.id
+        set_logged_user_id create_user.id
         logged_user.should_not be_nil
       end
     end

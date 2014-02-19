@@ -9,6 +9,10 @@ module UserHelpers
     not logged_user.nil?
   end
 
+  def set_logged_user_id(user_id)
+    session[:user_id] = user_id
+  end
+
   def get_secure_password(password)
     salt = [123, 32, 43, 53, 13, 54, 100, 11, 23, 68, 1, 88]
     salted_bytes = password.bytes.each_with_index.map { |byte, index| byte ^ salt[index % salt.length] }

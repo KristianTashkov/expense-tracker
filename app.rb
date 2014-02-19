@@ -32,8 +32,6 @@ module ExpenseTracker
     end
 
     configure :test do
-      system "rm database/test_database.db"
-      system "sequel -m  database/migrations sqlite://database/test_database.db"
       DB = Sequel.sqlite "database/test_database.db"
     end
 
