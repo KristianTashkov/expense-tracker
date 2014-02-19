@@ -5,6 +5,10 @@ include UserHelpers
 
 system "rm database/database.db"
 system "sequel -m  database/migrations sqlite://database/database.db"
+
+system "rm database/test_database.db"
+system "sequel -m  database/migrations sqlite://database/test_database.db"
+
 DB = Sequel.sqlite "database/database.db"
 
 Dir['./{models}/**/*.rb'].each { |file| require file }
