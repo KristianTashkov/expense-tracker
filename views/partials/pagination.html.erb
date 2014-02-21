@@ -5,14 +5,18 @@
         if shown_results.first_page?
           link = "javascript:;"
         else
-          link = pagination_link("#{base_url}?#{request.query_string}", shown_results.current_page - 1)
+          link = add_parameter_to_link("#{base_url}?#{request.query_string}",
+                                       "page",
+                                       shown_results.current_page - 1)
         end
       %>
       <%= to_link link, "&laquo;" %>
     </li>
     <% 1.upto(shown_results.page_count).each do |page| %>
       <li <%= shown_results.current_page == page ? "class='active'" : "" %>>
-        <%= to_link pagination_link("#{base_url}?#{request.query_string}", page), page %>
+        <%= to_link add_parameter_to_link("#{base_url}?#{request.query_string}",
+                                          "page",
+                                          page), page %>
       </li>
     <% end %>
     <li <%= shown_results.last_page? ? "class='disabled'" : "" %>>
@@ -20,7 +24,9 @@
         if shown_results.last_page?
           link = "javascript:;" 
         else
-          link = pagination_link("#{base_url}?#{request.query_string}", shown_results.current_page + 1)
+          link = add_parameter_to_link("#{base_url}?#{request.query_string}",
+                                        "page",
+                                        shown_results.current_page + 1)
         end
       %>
       <%= to_link link, "&raquo;" %>

@@ -8,13 +8,13 @@ module HTMLGenerator
     "<a #{class_tag} href='#{href}'>#{title}</a>"
   end
 
-  def pagination_link(fullpath, page)
-    pattern = /([\?|&]page=)(\d*)/
-    if(pattern.match(fullpath))
-      fullpath.gsub(pattern, '\1' + page.to_s)
+  def add_parameter_to_link(link, parameter, value)
+    pattern = /([\?|&]#{parameter}=)(\d*)/
+    if(pattern.match(link))
+      link.gsub(pattern, '\1' + value.to_s)
     else
-      symbol = fullpath.include?('?') ? "&" : "?"
-      "#{fullpath}#{symbol}page=#{page}"
+      symbol = link.include?('?') ? "&" : "?"
+      "#{link}#{symbol}#{parameter}=#{value}"
     end
   end
 end
