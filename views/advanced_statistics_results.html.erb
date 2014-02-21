@@ -1,0 +1,5 @@
+<%= erb :'partials/expense_list.html', locals: 
+{ base_url: "/advanced-statistics/results", expenses: @shown_results } %>
+<% if @charts_data %>
+      <%= erb :'partials/charts.html', locals: @charts_data %>
+<% end %>

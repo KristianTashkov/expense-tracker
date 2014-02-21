@@ -15,7 +15,7 @@ Dir['./{models}/**/*.rb'].each { |file| require file }
 
 subcategories = [["Food", "Groceries"],
                          ["Food", "Dinning"],
-                         ["Food", "Fast Food"],
+                         ["Food", "Fast food"],
                          ["Entertainment", "Alcohol"],
                          ["Entertainment", "Games"]]
 module ExpenseTracker

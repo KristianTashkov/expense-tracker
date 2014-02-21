@@ -44,7 +44,7 @@ module ExpenseTracker
       page = params[:page].to_i
       page = 1 if page.zero?
 
-      @expenses = Expense.where(:user_id => logged_user.id).order(Sequel.desc(:date)).paginate(page, 10)
+      @expenses = get_expenses(DateTime.new, DateTime.now).paginate(page, 10)
     end
   end
   ExpenseTracker::navigation_links[ProfileController] = NavigationLink.new("/profile", "Profile", true, 1);

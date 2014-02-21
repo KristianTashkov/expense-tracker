@@ -7,6 +7,17 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen" />
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script>
+    function deleteExpense(id) {
+      $.ajax({
+            method: "GET",
+            url: "/profile/delete-expense?id=" + id,
+            success: function() {
+              document.getElementById("expenseRow" + id).remove();
+            }
+        })
+    }
+    </script>
   </head>
   <body>
     <nav class="navbar navbar-inverse" role="navigation">

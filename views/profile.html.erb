@@ -25,53 +25,10 @@ function onExpenseCategoryChanged(){
   }
 }
 
-function deleteExpense(id) {
-  $.ajax({
-        method: "GET",
-        url: "/profile/delete-expense?id=" + id,
-        success: function() {
-          document.getElementById("expenseRow" + id).remove();
-        }
-      })
-}
-
 window.onload = onExpenseCategoryChanged;
 </script>
 <div class="col-md-8">
-  <div class="panel panel-primary">
-    <div class="panel-heading">Last expenses</div>
-    <div class="panel-body">
-      <% if @expenses.count.zero? %>
-        <div class="alert alert-info text-center">You currently have no expenses</div>
-      <% else %>
-        <table class="table table-striped table-hover vertical-middle">
-          <thead>
-            <tr>
-              <th class="text-center" width="150">Date</th>
-              <th class="text-center">Category</th>
-              <th class="text-center">Subcategory</th>
-              <th class="text-center">Ammount</th>
-              <th class="text-center">Description</th>
-              <th class="text-center">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @expenses.to_a.each do |expense| %>
-              <tr <%= "id='expenseRow#{expense.id}'" %>>
-                <td class="text-center"><%= expense.date.strftime("%e-%m-%Y %H:%M:%S") %></td>
-                <td class="text-center"><%= expense.subcategory.category.name %></td>
-                <td class="text-center"><%= expense.subcategory.name %></td>
-                <td class="text-center"><%= format_currency_string expense.ammount %></td>
-                <td class="text-center"><%= expense.description %></td>
-                <td class="text-center"><%= to_link "javascript: deleteExpense(#{expense.id})", (glyphicon_span "remove") %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-        <%= erb :'pagination.html', :locals => {:shown_results => @expenses , :base_url => "/profile"} %>
-      <% end %>
-    </div>
-  </div>
+  <%= erb :'partials/expense_list.html', locals: { base_url: "/profile", expenses: @expenses } %>
 </div>
 <div class="col-md-4">
 <div class="row">

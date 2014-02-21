@@ -16,7 +16,19 @@ module ExpenseTracker
         first_expense = add_expense_to_user(logged_user, {subcategory_id: subcategory.id })
         second_expense = add_expense_to_user(logged_user, {subcategory_id: subcategory.id })
 
-        get_expenses(DateTime.now - 1, DateTime.now).should eq([first_expense, second_expense])
+        expenses = get_expenses(DateTime.now - 1, DateTime.now).to_a 
+        expenses.include?(first_expense).should be_true
+        expenses.include?(second_expense).should be_true
+      end
+
+      it "should return all expenses in descending order by date" do
+        category = create_category "1"
+        subcategory = create_subcategory("1/1", category.id)
+        first_expense = add_expense_to_user(logged_user, {subcategory_id: subcategory.id })
+        second_expense = add_expense_to_user(logged_user, {subcategory_id: subcategory.id })
+
+        expenses = get_expenses(DateTime.now - 1, DateTime.now).to_a 
+        expenses.should eq([second_expense, first_expense])
       end
 
       it "should not return expenses not in the period" do
@@ -25,7 +37,7 @@ module ExpenseTracker
         first_expense = add_expense_to_user(logged_user, {subcategory_id: subcategory.id })
         second_expense = add_expense_to_user(logged_user, {subcategory_id: subcategory.id, date: DateTime.now - 2 })
 
-        get_expenses(DateTime.now - 1, DateTime.now).should eq([first_expense])
+        get_expenses(DateTime.now - 1, DateTime.now).to_a.should eq([first_expense])
       end
 
       it "should only return expenses matching subcategory ids" do
@@ -35,7 +47,7 @@ module ExpenseTracker
         first_expense = add_expense_to_user(logged_user, {subcategory_id: first_subcategory.id })
         second_expense = add_expense_to_user(logged_user, {subcategory_id: second_subcategory.id})
 
-        get_expenses(DateTime.now - 1, DateTime.now, [first_subcategory.id]).should eq([first_expense])
+        get_expenses(DateTime.now - 1, DateTime.now, [first_subcategory.id]).to_a.should eq([first_expense])
       end
     end
 

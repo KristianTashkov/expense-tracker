@@ -2,7 +2,8 @@ module ExpenseHelpers
   CHARTS_MAX_ITEMS = 10
 
   def generate_chart_data(start_period, end_period, subcategory_ids = nil)
-    all_expenses = get_expenses(start_period, end_period, subcategory_ids)
+    dataset = get_expenses(start_period, end_period, subcategory_ids)
+    all_expenses = dataset.to_a
     return { success: false } if all_expenses.empty?
 
     total_spent = all_expenses.map { |expense| expense.ammount }.reduce(&:+)
@@ -30,6 +31,7 @@ module ExpenseHelpers
 
     {
       success: true,
+      dataset: dataset,
       total_spent: total_spent,
       total_days_spending: total_days_spending,
       average_per_day: average_per_day,
@@ -43,7 +45,7 @@ module ExpenseHelpers
   def get_expenses(start_period, end_period, subcategory_ids = nil)
     dataset = Expense.where(user_id: logged_user.id).where(date: start_period..end_period.next_day)
     dataset = dataset.where(subcategory_id: subcategory_ids) if subcategory_ids
-    dataset.to_a
+    dataset.order(Sequel.desc(:date))
   end
 
   def trim_statistics_data(data)

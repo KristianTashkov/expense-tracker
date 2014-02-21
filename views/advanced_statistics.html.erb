@@ -1,16 +1,9 @@
 <script>
-$(function() {
-  $(".hasDatepicker").datepicker();
-});
-
 function onCategoryChange(id) {
   $("#subcategoriesColumn" + id + " input").prop("checked", 
   $("#categoryCheckbox" + id).prop("checked"));
 }
 </script>
-<% if @charts_data %>
-      <%= erb :'charts.html', locals: @charts_data %>
-<% end %>
 <div class="col-md-12">
   <div class="panel panel-primary">
    <div class="panel-heading">Filters</div>
@@ -20,7 +13,7 @@ function onCategoryChange(id) {
       You currently have no categories! You can add more categories from the <%= to_link "/categories", "<b>manage categories section.</b>" %>
     </div>
    <% else %>
-    <form method="post" action="/advanced-statistics/charts">
+    <form method="get" action="/advanced-statistics/results">
       <table class="table table-striped table-hover vertical-middle">
         <thead>
           <tr>

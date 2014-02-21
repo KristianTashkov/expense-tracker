@@ -14,13 +14,13 @@ window.onload = function () {
 </p>
   <div class="tab-content">
     <div class="tab-pane active col-md-12" id="lastWeek">
-      <%= erb :'charts.html', locals: generate_chart_data(DateTime.now - 7, DateTime.now) %>
+      <%= erb :'partials/charts.html', locals: generate_chart_data(DateTime.now - 7, DateTime.now) %>
     </div>
     <div class="tab-pane active col-md-12" id="lastMonth">
-      <%= erb :'charts.html', locals: generate_chart_data(DateTime.now.prev_month, DateTime.now) %>
+      <%= erb :'partials/charts.html', locals: generate_chart_data(DateTime.now.prev_month, DateTime.now) %>
     </div>
     <div class="tab-pane active col-md-12" id="allTime">
-      <%= erb :'charts.html', locals: generate_chart_data(DateTime.new, DateTime.now) %>
+      <%= erb :'partials/charts.html', locals: generate_chart_data(DateTime.new, DateTime.now) %>
     </div>
   </div>
 </div>
